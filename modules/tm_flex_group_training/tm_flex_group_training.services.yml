@@ -1,0 +1,26 @@
+services:
+  tm_flex_group_training_access.group.permission:
+    class: 'Drupal\tm_flex_group_training\Access\TmTrainingContentAccessCheck'
+    tags:
+      - { name: 'access_check', applies_to: '_tm_training_content_visibility', priority: -99 }
+  tm_flex_group_training_access.tm_training.permission:
+    class: 'Drupal\tm_flex_group_training\Access\TmTrainingJoinPermissionAccessCheck'
+    tags:
+      - { name: 'access_check', applies_to: '_tm_training_join_permission', priority: -99 }
+
+  tm_flex_group_training_access.route_subscriber:
+    class: Drupal\tm_flex_group_training\Subscriber\Route
+    tags:
+      - { name: event_subscriber }
+
+  tm_flex_group_training.config_override:
+    class: Drupal\tm_flex_group_training\TmFlexGroupTrainingConfigOverride
+    arguments: ['@config.factory']
+    tags:
+      - { name: config.factory.override, priority: 10 }
+
+  tm_flex_group_training.redirect_subscriber:
+    class: Drupal\tm_flex_group_training\EventSubscriber\RedirectSubscriber
+    arguments: ['@current_user', '@current_route_match']
+    tags:
+      - { name: event_subscriber }

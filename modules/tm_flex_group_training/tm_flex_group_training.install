@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * @file
+ * Install and update functions for the tm_flex_group_training module.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\FieldConfigInterface;
+use Drupal\search_api\Entity\Index;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Symfony\Component\Yaml\Yaml;
+
+/**
+ * Implements hook_install().
+ */
+function tm_flex_group_training_install() {
+  // Set some default permissions.
+  _tm_flex_group_training_set_permissions();
+
+  // Set module weight higher as the weight of the "Social Group" module because
+  // needs have the Views group type field which added via the "Social Group"
+  // module.
+  module_set_weight('tm_flex_group_training', 6);
+}
+
+/**
+ * Function to set permissions.
+ */
+function _tm_flex_group_training_set_permissions() {
+  $roles = \Drupal::entityQuery('user_role')
+    ->condition('id', 'administrator', '<>')
+    ->execute();
+
+  foreach ($roles as $role) {
+    $permissions = _tm_flex_group_training_get_permissions($role);
+    user_role_grant_permissions($role, $permissions);
+  }
+}
+
+/**
+ * Build the permissions.
+ *
+ * @param string $role
+ *   The role.
+ *
+ * @return array
+ *   Returns an array containing the permissions.
+ */
+function _tm_flex_group_training_get_permissions($role) {
+  // Anonymous.
+  $permissions['anonymous'] = [];
+
+  // Authenticated.
+  $permissions['authenticated'] = array_merge($permissions['anonymous'], [
+    'create tm_training group',
+  ]);
+
+  // Content manager.
+  $permissions['contentmanager'] = array_merge($permissions['authenticated'], []);
+
+  // Site manager.
+  $permissions['sitemanager'] = array_merge($permissions['contentmanager'], []);
+
+  return $permissions[$role] ?? [];
+}

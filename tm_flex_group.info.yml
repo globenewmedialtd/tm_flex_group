@@ -1,0 +1,9 @@
+name: 'TM Flex Group Core'
+description: 'Provides features to create new group types based on flexible group.'
+type: module
+core: 8.x
+dependencies:
+  - social_group_flexible_group
+core_incompatible: false
+package: social
+weight: 100
