@@ -145,6 +145,44 @@ function tm_flex_group_node_access(NodeInterface $node, $op, AccountInterface $a
   return EntityAccessHelper::getEntityAccessResult($node, $op, $account);
 }
 
+/**
+ * Provide a method to alter the allowed content visibility for a group type.
+ *
+ * @param array $visibilities
+ *   The visibilities list.
+ * @param string $group_type_id
+ *   The group type we alter the visibility setting for.
+ *
+ * @see social_group_get_allowed_visibility_options_per_group_type()
+ *
+ * @ingroup social_group_api
+ */
+function tm_flex_group_social_group_allowed_visibilities_alter(array &$visibilities, $group_type_id) {
+  
+  $flexible_group_types = tm_flex_group_get_flexible_group_types();
+  // Remove the default flexible_group
+  unset($flexible_group_types['flexible_group']);
+
+  if (in_array($group_type_id,$flexible_group_types)) {
+
+    $group = _social_group_get_current_group();
+
+    if ($group !== NULL) {
+      // Set all visibilities for that group to FALSE
+      foreach($visibilities as $visibility => $value) {
+        $visibilities[$visibility] = FALSE;
+      }
+            
+      // Try to retrieve allowed options from Group directly.
+      $allowed_options = $group->get('field_group_allowed_visibility')->getValue();
+      foreach ($allowed_options as $option) {
+        $value = $option['value'];
+        $visibilities[$value] = TRUE;
+      }      
+    }
+  }
+}
+
 
 
 

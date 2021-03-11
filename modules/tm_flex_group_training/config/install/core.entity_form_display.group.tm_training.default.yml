@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.group.tm_training.field_course_related_courses
     - field.field.group.tm_training.field_flexible_group_visibility
     - field.field.group.tm_training.field_group_address
     - field.field.group.tm_training.field_group_allowed_join_method
@@ -17,6 +18,7 @@ dependencies:
     - field_group
     - image_widget_crop
     - path
+    - social_profile
     - text
 third_party_settings:
   field_group:
@@ -26,6 +28,7 @@ third_party_settings:
         - label
         - field_group_image
         - field_group_description
+        - field_course_related_courses
       parent_name: ''
       weight: 0
       label: 'Basic information'
@@ -92,11 +95,43 @@ third_party_settings:
       parent_name: ''
       region: content
       weight: 3
+    group_request_membership:
+      children:
+        - allow_request
+      parent_name: ''
+      weight: 99
+      label: 'Request membership'
+      format_type: fieldset
+      format_settings:
+        description: ''
+        classes: ''
+        id: ''
+        required_fields: false
+      region: hidden
+_core:
+  default_config_hash: nH3QceWJjbQVU1RBDVAbh6Je8dgo-PNtdyeUR2iz-8g
 id: group.tm_training.default
 targetEntityType: group
 bundle: tm_training
 mode: default
 content:
+  allow_request:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 105
+    region: content
+    third_party_settings: {  }
+  field_course_related_courses:
+    weight: 104
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   field_flexible_group_visibility:
     weight: 100
     settings: {  }
@@ -174,5 +209,12 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
+  status:
+    weight: -5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
 hidden:
   uid: true

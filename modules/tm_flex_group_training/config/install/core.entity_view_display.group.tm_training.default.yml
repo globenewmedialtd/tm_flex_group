@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.group.tm_training.field_course_related_courses
     - field.field.group.tm_training.field_flexible_group_visibility
     - field.field.group.tm_training.field_group_address
     - field.field.group.tm_training.field_group_allowed_join_method
@@ -13,6 +14,9 @@ dependencies:
     - group.type.tm_training
   module:
     - options
+    - text
+_core:
+  default_config_hash: 5Vt5fIGDNYaE_qfBR3kCm8FRP3jDL2zg0I1XFQjyGG4
 id: group.tm_training.default
 targetEntityType: group
 bundle: tm_training
@@ -33,7 +37,7 @@ content:
     type: list_default
     region: content
   field_group_description:
-    type: basic_string
+    type: text_default
     weight: 0
     label: hidden
     settings: {  }
@@ -50,11 +54,12 @@ content:
 hidden:
   changed: true
   created: true
+  field_course_related_courses: true
   field_flexible_group_visibility: true
   field_group_address: true
-  field_group_description: true
   field_group_image: true
   field_group_location: true
   label: true
   search_api_excerpt: true
   uid: true
+

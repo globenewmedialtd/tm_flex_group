@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.tm_training
+  module:
+    - grequest
+    - user
+id: group_content_type_fce5be94576d3
+label: 'Training: Group membership request'
+description: 'Adds users as requesters for the group.'
+group_type: tm_training
+content_plugin: group_membership_request
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false
