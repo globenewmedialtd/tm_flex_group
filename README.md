@@ -8,3 +8,5 @@ There is still a hook_node_access to handle custom flexible group types, as the 
 ## ToDo
 
 Implement hook_views_query_alter()
+Tooltip on group page 
+Some improvements
