@@ -16,7 +16,7 @@ use Drupal\user\RoleInterface;
  *
  * @package Drupal\social_group_flexible_group
  */
-class TmTrainingContentVisibilityUpdate {
+class TmCommunityContentVisibilityUpdate {
 
   use StringTranslationTrait;
 
