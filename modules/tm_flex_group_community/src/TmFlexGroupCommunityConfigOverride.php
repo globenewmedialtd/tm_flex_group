@@ -241,7 +241,7 @@ class TmFlexGroupCommunityConfigOverride implements ConfigFactoryOverrideInterfa
    * {@inheritdoc}
    */
   public function getCacheSuffix() {
-    return 'TmFlexGroupTrainingConfigOverride';
+    return 'TmFlexGroupCommunityConfigOverride';
   }
 
   /**
