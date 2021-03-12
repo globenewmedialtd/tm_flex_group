@@ -2,6 +2,10 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.group.tm_training.field_course_opening_date
+    - field.field.group.tm_training.field_course_opening_status
+    - field.field.group.tm_training.field_course_order
+    - field.field.group.tm_training.field_course_redirect_url
     - field.field.group.tm_training.field_course_related_courses
     - field.field.group.tm_training.field_flexible_group_visibility
     - field.field.group.tm_training.field_group_address
@@ -15,8 +19,10 @@ dependencies:
     - image.style.social_x_large
   module:
     - address
+    - datetime
     - field_group
     - image_widget_crop
+    - link
     - path
     - social_profile
     - text
@@ -28,7 +34,6 @@ third_party_settings:
         - label
         - field_group_image
         - field_group_description
-        - field_course_related_courses
       parent_name: ''
       weight: 0
       label: 'Basic information'
@@ -44,7 +49,7 @@ third_party_settings:
         - field_group_location
         - field_group_address
       parent_name: ''
-      weight: 2
+      weight: 3
       label: Location
       format_type: fieldset
       format_settings:
@@ -55,9 +60,12 @@ third_party_settings:
       region: content
     group_settings:
       children:
+        - status
         - path
+        - field_course_order
+        - field_course_redirect_url
       parent_name: ''
-      weight: 4
+      weight: 5
       format_type: details
       format_settings:
         id: ''
@@ -94,7 +102,7 @@ third_party_settings:
       label: 'Additional information'
       parent_name: ''
       region: content
-      weight: 3
+      weight: 4
     group_request_membership:
       children:
         - allow_request
@@ -108,8 +116,34 @@ third_party_settings:
         id: ''
         required_fields: false
       region: hidden
+    group_related_trainings:
+      children:
+        - field_course_related_courses
+      parent_name: ''
+      weight: 6
+      format_type: fieldset
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Related trainings'
+    group_date_and_time:
+      children:
+        - field_course_opening_date
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: 'Date and time'
 _core:
-  default_config_hash: nH3QceWJjbQVU1RBDVAbh6Je8dgo-PNtdyeUR2iz-8g
+  default_config_hash: SWXi8GtWfCj1Pcic0FREY11KhgpNd6feMPWf4fBrBX0
 id: group.tm_training.default
 targetEntityType: group
 bundle: tm_training
@@ -117,13 +151,33 @@ mode: default
 content:
   allow_request:
     type: boolean_checkbox
+    weight: 10
+    region: content
     settings:
       display_label: true
-    weight: 105
-    region: content
     third_party_settings: {  }
+  field_course_opening_date:
+    weight: 102
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_course_order:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
+  field_course_redirect_url:
+    weight: 3
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
   field_course_related_courses:
-    weight: 104
+    weight: 8
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -133,25 +187,25 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_flexible_group_visibility:
-    weight: 100
+    weight: 1
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
     region: content
   field_group_address:
-    weight: 6
+    weight: 2
     settings: {  }
     third_party_settings: {  }
     type: address_default
     region: content
   field_group_allowed_join_method:
-    weight: 102
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
     region: content
   field_group_allowed_visibility:
-    weight: 101
+    weight: 2
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
@@ -182,7 +236,7 @@ content:
     type: image_widget_crop
     region: content
   field_group_location:
-    weight: 5
+    weight: 1
     settings:
       size: 60
       placeholder: ''
@@ -205,16 +259,17 @@ content:
     region: content
   path:
     type: path
-    weight: 4
+    weight: 1
     settings: {  }
     third_party_settings: {  }
     region: content
   status:
-    weight: -5
+    weight: 0
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
 hidden:
+  field_course_opening_status: true
   uid: true

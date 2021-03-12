@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.group.tm_community.field_course_related_courses
     - field.field.group.tm_community.field_flexible_group_visibility
     - field.field.group.tm_community.field_group_address
     - field.field.group.tm_community.field_group_allowed_join_method
@@ -28,7 +27,6 @@ third_party_settings:
         - label
         - field_group_image
         - field_group_description
-        - field_course_related_courses
       parent_name: ''
       weight: 0
       label: 'Basic information'
@@ -122,16 +120,6 @@ content:
     weight: 105
     region: content
     third_party_settings: {  }
-  field_course_related_courses:
-    weight: 104
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_flexible_group_visibility:
     weight: 100
     settings: {  }

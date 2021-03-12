@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.group.tm_community.field_course_related_courses
     - field.field.group.tm_community.field_flexible_group_visibility
     - field.field.group.tm_community.field_group_address
     - field.field.group.tm_community.field_group_allowed_join_method
@@ -54,7 +53,6 @@ content:
 hidden:
   changed: true
   created: true
-  field_course_related_courses: true
   field_flexible_group_visibility: true
   field_group_address: true
   field_group_image: true

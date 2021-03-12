@@ -3,14 +3,14 @@ status: true
 dependencies:
   config:
     - field.storage.group.field_course_related_courses
-    - group.type.course_advanced
-    - group.type.course_basic
     - group.type.tm_training
+_core:
+  default_config_hash: Knz5uRSObZaaFdbypD9kkEMbYWLihUPAUcT1NKt2mWA
 id: group.tm_training.field_course_related_courses
 field_name: field_course_related_courses
 entity_type: group
 bundle: tm_training
-label: 'Related courses'
+label: 'Related trainings'
 description: ''
 required: false
 translatable: true
@@ -20,11 +20,12 @@ settings:
   handler: 'default:group'
   handler_settings:
     target_bundles:
-      course_advanced: course_advanced
-      course_basic: course_basic
+      tm_training: tm_training
     sort:
       field: _none
     auto_create: false
     auto_create_bundle: course_advanced
 field_type: entity_reference
+
+
 

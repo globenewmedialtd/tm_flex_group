@@ -3,6 +3,11 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.group.hero
+    - field.field.group.tm_training.field_course_opening_date
+    - field.field.group.tm_training.field_course_opening_status
+    - field.field.group.tm_training.field_course_order
+    - field.field.group.tm_training.field_course_redirect_url
+    - field.field.group.tm_training.field_course_related_courses
     - field.field.group.tm_training.field_flexible_group_visibility
     - field.field.group.tm_training.field_group_address
     - field.field.group.tm_training.field_group_allowed_join_method
@@ -16,6 +21,8 @@ dependencies:
   module:
     - address
     - image
+_core:
+  default_config_hash: L2gScAhn9DSzzuxnDWa7-kznY-30TU_aCTcvg0BXL28
 id: group.tm_training.hero
 targetEntityType: group
 bundle: tm_training
@@ -56,6 +63,11 @@ content:
 hidden:
   changed: true
   created: true
+  field_course_opening_date: true
+  field_course_opening_status: true
+  field_course_order: true
+  field_course_redirect_url: true
+  field_course_related_courses: true
   field_flexible_group_visibility: true
   field_group_allowed_join_method: true
   field_group_allowed_visibility: true
@@ -63,3 +75,4 @@ hidden:
   field_group_type: true
   search_api_excerpt: true
   uid: true
+

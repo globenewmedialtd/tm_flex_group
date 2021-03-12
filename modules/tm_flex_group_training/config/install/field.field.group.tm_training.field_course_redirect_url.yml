@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.field_course_redirect_url
+    - group.type.tm_training
+  module:
+    - link
+id: group.tm_training.field_course_redirect_url
+field_name: field_course_redirect_url
+entity_type: group
+bundle: tm_training
+label: 'Redirect URL'
+description: 'The URL where user will be redirected when he finished the training.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

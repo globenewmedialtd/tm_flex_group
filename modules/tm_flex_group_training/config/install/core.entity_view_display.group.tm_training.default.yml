@@ -2,6 +2,10 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.group.tm_training.field_course_opening_date
+    - field.field.group.tm_training.field_course_opening_status
+    - field.field.group.tm_training.field_course_order
+    - field.field.group.tm_training.field_course_redirect_url
     - field.field.group.tm_training.field_course_related_courses
     - field.field.group.tm_training.field_flexible_group_visibility
     - field.field.group.tm_training.field_group_address
@@ -13,15 +17,55 @@ dependencies:
     - field.field.group.tm_training.field_group_type
     - group.type.tm_training
   module:
+    - datetime
+    - link
     - options
     - text
 _core:
-  default_config_hash: 5Vt5fIGDNYaE_qfBR3kCm8FRP3jDL2zg0I1XFQjyGG4
+  default_config_hash: ipN3WaxyhxUNr4d1B4davACWzK32DZwA9CsNqOnAOFI
 id: group.tm_training.default
 targetEntityType: group
 bundle: tm_training
 mode: default
 content:
+  field_course_opening_date:
+    weight: 4
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_course_opening_status:
+    weight: 5
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_course_order:
+    weight: 7
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_course_redirect_url:
+    weight: 6
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
   field_group_allowed_join_method:
     weight: 2
     label: above
