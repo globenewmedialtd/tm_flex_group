@@ -28,7 +28,8 @@ function tm_flex_group_get_flexible_group_types() {
 
   $flexible_group_types = [
     'flexible_group',
-    'tm_training'
+    'tm_training',
+    'tm_community'
   ];
 
   return $flexible_group_types;
@@ -54,6 +55,11 @@ function tm_flex_group_get_group_types() {
   // Add tm_training group to $group_types  
   if (\Drupal::moduleHandler()->moduleExists('tm_flex_group_training')) {
     array_push($group_types, 'tm_training');
+  }  
+
+  // Add tm_community group to $group_types  
+  if (\Drupal::moduleHandler()->moduleExists('tm_flex_group_community')) {
+    array_push($group_types, 'tm_community');
   }  
 
   return $group_types;
