@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.tm_conference
+    - node.type.topic
+  module:
+    - gnode
+    - node
+    - tm_flex_group_conference
+_core:
+  default_config_hash: NdqEQFRAz_vLVQbQZ-bats8yKYlmokAmmoJuhywMeNg
+id: tm_conference-group_node-topic
+label: topic
+description: 'Adds <em class="placeholder">Topic</em> content to groups using private content settings.'
+group_type: tm_conference
+content_plugin: 'group_node:topic'
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

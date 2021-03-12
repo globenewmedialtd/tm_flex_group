@@ -1,0 +1,10 @@
+name: 'Tm Flex Group Conference'
+description: 'Provides a flexible Group feature allowing members to configure the group to their liking.'
+type: module
+core: 8.x
+dependencies:
+  - tm_flex_group
+  - social:social_group_flexible_group
+  - social:social_course
+package: Social
+core_incompatible: false

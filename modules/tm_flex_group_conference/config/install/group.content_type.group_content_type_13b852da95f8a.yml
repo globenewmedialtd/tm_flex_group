@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.tm_conference
+  module:
+    - grequest
+    - user
+id: group_content_type_13b852da95f8a
+label: 'Conference: Group membership request'
+description: 'Adds users as requesters for the group.'
+group_type: tm_conference
+content_plugin: group_membership_request
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false
+
