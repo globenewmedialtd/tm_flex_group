@@ -1,0 +1,119 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group.tm_training.field_course_opening_date
+    - field.field.group.tm_training.field_course_opening_status
+    - field.field.group.tm_training.field_course_order
+    - field.field.group.tm_training.field_course_redirect_url
+    - field.field.group.tm_training.field_course_related_courses
+    - field.field.group.tm_training.field_course_type
+    - field.field.group.tm_training.field_flexible_group_visibility
+    - field.field.group.tm_training.field_group_address
+    - field.field.group.tm_training.field_group_allowed_join_method
+    - field.field.group.tm_training.field_group_allowed_visibility
+    - field.field.group.tm_training.field_group_description
+    - field.field.group.tm_training.field_group_image
+    - field.field.group.tm_training.field_group_location
+    - field.field.group.tm_training.field_group_type
+    - group.type.tm_training
+  module:
+    - datetime
+    - link
+    - options
+    - text
+_core:
+  default_config_hash: Ca2voS6wQweKPzIFyh2pwAjEoHtBI-dx-f2WJINq8UQ
+id: group.tm_training.default
+targetEntityType: group
+bundle: tm_training
+mode: default
+content:
+  field_course_opening_date:
+    weight: 4
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_course_opening_status:
+    weight: 5
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_course_order:
+    weight: 7
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_course_redirect_url:
+    weight: 6
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_course_type:
+    weight: 8
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_group_allowed_join_method:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_group_allowed_visibility:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_group_description:
+    type: text_default
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_group_type:
+    weight: 3
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden:
+  changed: true
+  created: true
+  field_course_related_courses: true
+  field_flexible_group_visibility: true
+  field_group_address: true
+  field_group_image: true
+  field_group_location: true
+  label: true
+  search_api_excerpt: true
+  social_tagging: true
+  uid: true
+

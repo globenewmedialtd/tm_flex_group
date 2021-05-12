@@ -64,3 +64,62 @@ function _tm_flex_group_training_get_permissions($role) {
 
   return $permissions[$role] ?? [];
 }
+
+/**
+ * Adding new field course type entity reference field
+ */
+function tm_flex_group_training_update_8001() {
+
+  $configs_to_install = [
+    'field.field.group.tm_training.field_course_type',
+    'core.entity_form_display.group.tm_training.default',
+    'core.entity_view_display.group.tm_training.default'
+  ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _tm_flex_group_training_update_or_install_config($config_to_install, '8001', 'tm_flex_group_training');
+  }
+
+}
+
+
+function _tm_flex_group_training_update_or_install_config( String $prefix, String $update_id, String $module) {
+  $updated = [];
+  $created = [];
+
+  /** @var \Drupal\Core\Config\ConfigManagerInterface $config_manager */
+  $config_manager = \Drupal::service('config.manager');
+  $files = glob(drupal_get_path('module', $module) . '/config/update_' . $update_id. '/' . $prefix . '*.yml') ;
+  foreach ($files as $file) {
+    $raw = file_get_contents($file);
+    $value = \Drupal\Component\Serialization\Yaml::decode($raw);
+    if(!is_array($value)) {
+      throw new \RuntimeException(sprintf('Invalid YAML file %s'), $file);
+    }
+
+    $type = $config_manager->getEntityTypeIdByName(basename($file));
+    $entity_manager = $config_manager->getEntityManager();
+    $definition = $entity_manager->getDefinition($type);
+    $id_key = $definition->getKey('id');
+    $id = $value[$id_key];
+
+    /** @var \Drupal\Core\Config\Entity\ConfigEntityStorage $entity_storage */
+    $entity_storage = $entity_manager->getStorage($type);
+    $entity = $entity_storage->load($id);
+    if ($entity) {
+      $entity = $entity_storage->updateFromStorageRecord($entity, $value);
+      $entity->save();
+      $updated[] = $id;
+    }
+    else {
+      $entity = $entity_storage->createFromStorageRecord($value);
+      $entity->save();
+      $created[] = $id;
+    }
+  }
+
+  return [
+    'udpated' => $updated,
+    'created' => $created,
+  ];
+}
