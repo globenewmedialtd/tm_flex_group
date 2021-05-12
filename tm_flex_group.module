@@ -195,6 +195,247 @@ function tm_flex_group_social_group_allowed_visibilities_alter(array &$visibilit
   }
 }
 
+/**
+ * Implements hook_theme_registry_alter
+ * This is needed because social_group uses hook_preprocess_HOOK!
+ * {@inheritdoc}
+ */
+function tm_flex_group_theme_registry_alter(&$theme_registry) {
+  $theme_registry['group__hero']['preprocess functions'] = [
+    0 => 'social_group_preprocess_group__hero',
+    1 => 'tm_flex_group_preprocess_group__hero'
+  ];
+}
+
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function tm_flex_group_preprocess_group__hero(array &$variables) {
+
+  /** @var \Drupal\group\Entity\GroupInterface $group */
+  $group = $variables['group'];
+  $account = \Drupal::currentUser();
+
+  $tm_flex_groups = tm_flex_group_get_flexible_group_types();
+  unset($tm_flex_groups['flexible_group']);
+
+  if (in_array($group->bundle(),$tm_flex_groups)) {
+    // Render the group settings help, gear icon with popover.
+    $group_settings_help = _tm_flex_group_render_group_settings_hero($group);
+  }
+  else {
+
+    if ($group->bundle() == 'public_group' && $account->isAnonymous()) {
+      $variables['group_operations_url'] = Url::fromRoute('user.register', [], [
+        'query' => [
+          'destination' => Url::fromRoute('entity.group.join', [
+            'group' => $group->id(),
+          ])->toString(),
+        ],
+      ])->toString();
+    }
+
+    // Render the group settings help, gear icon with popover.
+    $group_settings_help = _social_group_render_group_settings_hero($group);
+
+  }
+  
+  $variables['group_settings_help'] = \Drupal::service('renderer')->renderPlain($group_settings_help);
+
+}
+
+
+/**
+ * Get the join methods of a group.
+ *
+ * @param \Drupal\group\Entity\GroupInterface $group
+ *   the Group interface.
+ *
+ * @return array
+ *   Returns join methods of a group.
+ */
+function _tm_flex_group_get_join_methods(GroupInterface $group) {
+  $group_type = $group->getGroupType();
+  $group_type_id = $group_type->id();
+  $join_methods = [];
+
+  if ($group_type_id == 'tm_training' || 
+      $group_type_id == 'tm_community' ||
+      $group_type_id == 'tm_conference') {
+
+      // Try to retrieve join methods from Group directly.
+      $allowed_options = $group->get('field_group_allowed_join_method')
+        ->getValue();
+      foreach ($allowed_options as $option) {
+        // Lets grab the value from the selected radio item.
+        if (!empty($option['value']) && is_string($option['value'])) {
+          $join_methods[$option['value']] = social_group_allowed_join_method_description($option['value']);
+        }
+      }
+
+
+  }
+
+  return $join_methods;
+
+}
+
+/**
+ * Get the group visibility label of a group.
+ *
+ * @param \Drupal\group\Entity\GroupInterface $group
+ *   the Group interface.
+ * @param string $field_name
+ *   The field name of the visibility field for a group type.
+ *
+ * @return array
+ *   Returns the visibility options of a group.
+ */
+function _tm_flex_group_get_group_visibility(GroupInterface $group, $field_name = NULL) {
+  $group_type = $group->getGroupType();
+  $group_type_id = $group_type->id();
+  $group_visibility = [];
+
+
+  if ($group_type_id == 'tm_training' || 
+      $group_type_id == 'tm_community' ||
+      $group_type_id == 'tm_conference') {
+
+      if ($group->hasField('field_flexible_group_visibility')) {
+        $visibility_values = $group->get('field_flexible_group_visibility')->getValue();
+        // Lets grab the rendered description for the group visibility.
+        if (!empty($visibility_values)) {
+          foreach ($visibility_values as $visibility_value) {
+            if (!empty($visibility_value['value']) && is_string($visibility_value['value'])) {
+              $group_visibility[$visibility_value['value']] = social_group_group_visibility_description($visibility_value['value']);
+            }
+          }
+        }
+        
+      }
+
+  }
+
+  return $group_visibility;
+
+
+}
+
+/**
+ * Get the allowed visibility of a group.
+ *
+ * @param Drupal\group\Entity\GroupInterface $group
+ *   the Group interface.
+ *
+ * @return array
+ *   Returns allowed visibility of a group.
+ */
+function _tm_flex_group_get_allowed_visibility(GroupInterface $group) {
+  $group_type = $group->getGroupType();
+  $group_type_id = $group_type->id();
+  $allowed_visibility = [];
+
+
+  if ($group_type_id === 'tm_training' || 
+      $group_type_id === 'tm_community' ||
+      $group_type_id === 'tm_conference') {
+
+      // Try to retrieve allowed visibility from Group directly.
+      $allowed_options = $group->get('field_group_allowed_visibility')
+        ->getValue();
+      foreach ($allowed_options as $option) {
+        if (!empty($option['value']) && is_string($option['value'])) {
+          $allowed_visibility[$option['value']] = social_group_allowed_visibility_description($option['value']);
+        }
+      }
+
+  }
+   
+  return $allowed_visibility;
+
+}
+
+/**
+ * Renders the group settings based on available fields for the hero.
+ *
+ * @param \Drupal\group\Entity\GroupInterface $group
+ *   the Group interface.
+ *
+ * @return array
+ *   the actual tooltip render array.
+ */
+function _tm_flex_group_render_group_settings_hero(GroupInterface $group) {
+  $description = '';
+  // Optional after 10.0.x we can render the group visibility.
+  if ($group_visibility_option = _tm_flex_group_get_group_visibility($group)) {
+    // Wrap our chosen description in a container.
+    $description .= '<span class="title">' . t('Group visibility') . '</span>';
+    $description .= '<div class="group-visibility-details container-background">';
+    foreach ($group_visibility_option as $key => $group_visibility_string) {
+      $description .= $group_visibility_string;
+    }
+    $description .= '</div>';
+  }
+  // Optional after 9.x we can render the allowed content visibility.
+  if ($allowed_visibility_option = _tm_flex_group_get_allowed_visibility($group)) {
+    // Wrap our chosen description in a container.
+    $description .= '<span class="title">' . t('Group content visibility') . '</span>';
+    $description .= '<div class="group-visibility-details container-background">';
+    foreach ($allowed_visibility_option as $key => $allowed_visibility_string) {
+      $description .= $allowed_visibility_string;
+    }
+    $description .= '</div>';
+  }
+  // Optional after 9.x we can render the join methods.
+  if ($join_methods_option = _tm_flex_group_get_join_methods($group)) {
+    // Wrap our chosen description in a container.
+    $description .= '<span class="title">' . t('Join method') . '</span>';
+    $description .= '<div class="group-visibility-details container-background">';
+    foreach ($join_methods_option as $key => $join_methods_string) {
+      $description .= $join_methods_string;
+    }
+    $description .= '</div>';
+  }
+
+  return social_group_render_tooltip('group_hero', t('Access permissions'), $description);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function tm_flex_group_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Add a checkbox for users to easily enable/disable course date and time.
+  if (isset($form['field_course_opening_date'])) {
+    $form['field_course_opening_date_status'] = [
+      '#type' => 'checkbox',
+      '#weight' => -1,
+      '#title' => t('Enable open date and time'),
+      '#description' => t("When enabled, course sections and other information can only be accessed by members after the course starts. Enrolment can only take place before the course has started.
+<br>When not enabled, course sections and other information can be accessed right after enrolment."),
+    '#default_value' => !empty($form['field_course_opening_date']['widget'][0]['value']['#default_value']),
+    ];
+
+    $form['field_course_opening_date']['widget'][0]['value']['#states'] = [
+      'visible' => [
+        'input[name="field_course_opening_date_status"]' => ['checked' => TRUE],
+      ],
+    ];
+
+    // Set correct field group 'date_and_time'.
+    $form['field_course_opening_date_status']['#group'] = 'group_date_and_time';
+    $form['#group_children']['field_course_opening_date_status'] = $form['field_course_opening_date_status'];
+
+    // Remove extra fieldset from datetime field.
+    unset($form['field_course_opening_date']['widget'][0]['#theme_wrappers']);
+  }
+  
+}
+
+
+
+
 
 
 
