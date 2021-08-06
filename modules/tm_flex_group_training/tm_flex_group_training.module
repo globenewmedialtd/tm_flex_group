@@ -424,3 +424,4 @@ function tm_flex_group_training_preprocess_fieldset(&$variables) {
     }
   }
 }
+

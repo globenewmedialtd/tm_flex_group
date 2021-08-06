@@ -85,6 +85,7 @@ function tm_flex_group_training_update_8001() {
 /**
  * Adding course order 'sequential' per default
  */
+
 function tm_flex_group_training_update_8002() {
 
   $configs_to_install = [
@@ -96,7 +97,6 @@ function tm_flex_group_training_update_8002() {
   }
 
 }
-
 
 function _tm_flex_group_training_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];

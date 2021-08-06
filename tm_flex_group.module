@@ -28,10 +28,10 @@ use Drupal\node\NodeInterface;
 function tm_flex_group_get_flexible_group_types() {
 
   $flexible_group_types = [
-    'flexible_group',
-    'tm_training',
-    'tm_community',
-    'tm_conference'
+    'flexible_group' => 'flexible_group',
+    'tm_training' => 'tm_training',
+    'tm_community' => 'tm_community',
+    'tm_conference' => 'tm_conference'
   ];
 
   return $flexible_group_types;
@@ -222,10 +222,14 @@ function tm_flex_group_preprocess_group__hero(array &$variables) {
   unset($tm_flex_groups['flexible_group']);
 
   if (in_array($group->bundle(),$tm_flex_groups)) {
+
     // Render the group settings help, gear icon with popover.
     $group_settings_help = _tm_flex_group_render_group_settings_hero($group);
   }
   else {
+
+    // Render the group settings help, gear icon with popover.
+    $group_settings_help = _social_group_render_group_settings_hero($group);
 
     if ($group->bundle() == 'public_group' && $account->isAnonymous()) {
       $variables['group_operations_url'] = Url::fromRoute('user.register', [], [
@@ -237,8 +241,7 @@ function tm_flex_group_preprocess_group__hero(array &$variables) {
       ])->toString();
     }
 
-    // Render the group settings help, gear icon with popover.
-    $group_settings_help = _social_group_render_group_settings_hero($group);
+   
 
   }
   
