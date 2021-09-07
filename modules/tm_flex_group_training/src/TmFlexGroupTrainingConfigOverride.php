@@ -95,11 +95,6 @@ class TmFlexGroupTrainingConfigOverride implements ConfigFactoryOverrideInterfac
     foreach ($config_names as $config_name) {
       if (in_array($config_name, $names)) {
         $overrides[$config_name] = [
-          'dependencies' => [
-            'config' => [
-              'tm_training-group_membership' => 'group.content_type.tm_training-group_membership',
-            ],
-          ],
           'display' => [
             'default' => [
               'display_options' => [
@@ -125,12 +120,6 @@ class TmFlexGroupTrainingConfigOverride implements ConfigFactoryOverrideInterfac
     foreach ($config_names as $config_name => $content_type) {
       if (in_array($config_name, $names)) {
         $overrides[$config_name] = [
-          'dependencies' => [
-            'config' => [
-              'group-content-type' => 'group.content_type.' . $content_type,
-              'group-type' => 'group.type',
-            ],
-          ],
           'display' => [
             'default' => [
               'display_options' => [
