@@ -25,7 +25,7 @@ function tm_flex_group_conference_social_group_types_alter(array &$social_group_
  *
  * @ingroup social_group_api
  */
-function tm_flex_group_training_social_group_settings_alter(&$social_group_types) {
+function tm_flex_group_conference_social_group_settings_alter(&$social_group_types) {
   $social_group_types[] = 'tm_conference';
 }
 
