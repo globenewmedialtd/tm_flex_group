@@ -3,11 +3,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.group.small_teaser
-    - field.field.group.tm_training.field_course_opening_date
-    - field.field.group.tm_training.field_course_opening_status
-    - field.field.group.tm_training.field_course_order
-    - field.field.group.tm_training.field_course_redirect_url
-    - field.field.group.tm_training.field_course_related_courses
     - field.field.group.tm_training.field_flexible_group_visibility
     - field.field.group.tm_training.field_group_address
     - field.field.group.tm_training.field_group_allowed_join_method
@@ -21,7 +16,7 @@ dependencies:
   module:
     - image
 _core:
-  default_config_hash: w96ZSzgBraMl3-0kL3qiU3NA_nhVmxtELEi0qGWTOX4
+  default_config_hash: 6k0QlTOrhwiXh12DABmlpPqGLkyrDJk20_p86wjluy4
 id: group.tm_training.small_teaser
 targetEntityType: group
 bundle: tm_training
@@ -47,11 +42,6 @@ content:
 hidden:
   changed: true
   created: true
-  field_course_opening_date: true
-  field_course_opening_status: true
-  field_course_order: true
-  field_course_redirect_url: true
-  field_course_related_courses: true
   field_flexible_group_visibility: true
   field_group_address: true
   field_group_allowed_join_method: true
@@ -61,4 +51,3 @@ hidden:
   field_group_type: true
   search_api_excerpt: true
   uid: true
-
