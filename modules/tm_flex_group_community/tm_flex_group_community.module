@@ -16,3 +16,16 @@
 function tm_flex_group_community_social_group_types_alter(array &$social_group_types) {
   $social_group_types[] = 'tm_community';
 }
+
+/**
+ * Provide a method to extend group and content visibility to other group types.
+ *
+ * @param string $social_group_types
+ *   The group type id.
+ *
+ * @ingroup social_group_api
+ */
+function tm_flex_group_training_social_group_settings_alter(&$social_group_types) {
+  $social_group_types[] = 'tm_community';
+}
+
